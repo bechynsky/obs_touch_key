@@ -13,8 +13,17 @@ SD card to store background bitmap. I use very old one just 1 GB formated with F
 # Software
 Software jsut draw bitmap image from SD card. It listens for touch event. Based on coordinates of touch event is sends key strokes and highlight virtual button. Be aware there is no feedback from OBS. It just sends keyboard shortcuts.
 
-# Disadvanteges
+![Screen 1](screen_1.jpg)
+
+![Screen 2](screen_2.jpg)
+
+![Screen 3](screen_3.jpg)
+
+
+# Disadvantage
 There is no feedback from touch screen compare to physical buttons like in this [OBS Control Rig](https://github.com/ridercz/ObsControl) project.
 
 # Kudos
 Thanks to [ridercz](https://github.com/ridercz) to draw background for this project.
+
+
