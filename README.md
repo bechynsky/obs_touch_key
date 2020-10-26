@@ -28,6 +28,8 @@ Software jsut draw bitmap image from SD card. It listens for touch event. Based 
 # Disadvantage
 There is no feedback from touch screen compare to physical buttons like in this [OBS Control Rig](https://github.com/ridercz/ObsControl) project.
 
+Arduino Leonardo runs on memory limit. If you need more complex functionality or more libraries you need to choose SAMD based Arduino.
+
 # Kudos
 Thanks to [ridercz](https://github.com/ridercz) to draw background for this project.
 
