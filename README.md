@@ -15,3 +15,6 @@ Software jsut draw bitmap image from SD card. It listens for touch event. Based 
 
 # Disadvanteges
 There is no feedback from touch screen compare to physical buttons like in this [OBS Control Rig](https://github.com/ridercz/ObsControl) project.
+
+# Kudos
+Thanks to [ridercz](https://github.com/ridercz) to draw background for this project.
