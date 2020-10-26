@@ -1,12 +1,3 @@
-// Adafruit_ImageReader test for Adafruit ILI9341 TFT Shield for Arduino.
-// Demonstrates loading images from SD card or flash memory to the screen,
-// to RAM, and how to query image file dimensions.
-// Requires three BMP files in root directory of SD card:
-// purple.bmp, parrot.bmp and wales.bmp.
-// As written, this uses the microcontroller's SPI interface for the screen
-// (not 'bitbang') and must be wired to specific pins (e.g. for Arduino Uno,
-// MOSI = pin 11, MISO = 12, SCK = 13). Other pins are configurable below.
-
 #include <Adafruit_GFX.h>         // Core graphics library
 #include <Adafruit_ILI9341.h>     // Hardware-specific library
 #include <SdFat.h>                // SD card & FAT filesystem library
@@ -21,9 +12,10 @@
 // Keyboard simulator
 #include "Keyboard.h"
 
-// The FT6206 uses hardware I2C (SCL/SDA)
+// Touch - The FT6206 uses hardware I2C (SCL/SDA)
 Adafruit_FT6206 ts = Adafruit_FT6206();
 
+// MOSI = pin 11, MISO = 12, SCK = 13). Other pins are configurable below.
 // TFT display and SD card share the hardware SPI interface, using
 // 'select' pins for each to identify the active device on the bus.
 #define SD_CS   4 // SD card select pin
@@ -35,6 +27,7 @@ Adafruit_ImageReader reader(SD); // Image-reader object, pass in SD filesys
 
 Adafruit_ILI9341     tft    = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
+// virtual buttons setup
 // buttons
 #define THICKNESS 14
 
@@ -119,9 +112,10 @@ void setup(void) {
   stat = reader.drawBMP("/obs_inactive.bmp", tft, 0, 0);
   reader.printStatus(stat);   // How'd we do?
 
+  // https://www.arduino.cc/reference/en/language/functions/usb/keyboard/
   Keyboard.begin();
   
-  delay(2000); // Pause 2 seconds before moving on to loop()
+  delay(1000); // Pause 1 seconds before moving on to loop()
 }
 
 void loop() {
@@ -130,15 +124,20 @@ void loop() {
     // Retrieve a point  
     TS_Point p = ts.getPoint(); 
     
+    // Touch layre of screen use different coordinates
+    // We need to recalculate it
     p.x = map(p.x, 0, 240, 240, 0);
     p.y = map(p.y, 0, 320, 320, 0);
 
+    // Detect virtual button
     if (p.x > BUTTON_SCENE_X)
     {
       if (p.y < BUTTON_2_Y)
       {
         clearBoxes();
         drawBox(BUTTON_SCENE_X, BUTTON_1_Y, BUTTON_SCENE_W, BUTTON_1_H, BUTTON_1_ACTIVE, THICKNESS);
+        // Send keyboard shortcut
+        // https://www.arduino.cc/reference/en/language/functions/usb/keyboard/keyboardmodifiers/
         //Keyboard.println("A");
       }
       else if (p.y > BUTTON_2_Y && p.y < BUTTON_3_Y)
@@ -178,7 +177,7 @@ void loop() {
       }
       is_recording = !is_recording;
     }
-    // just one touch
+    // just one touch, debounce
     while(ts.touched()) {delay(10);};
   }
   
